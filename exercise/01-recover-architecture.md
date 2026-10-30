@@ -38,15 +38,17 @@ evidence: system/online-boutique/protos/demo.proto, system/online-boutique/kuber
 
 | ผู้เรียก → ผู้ถูกเรียก | หลักฐานที่ AI อ้าง | ยืนยันแล้วหรือไม่ ✅ / ❌ / ❓ | สิ่งที่นิสิตพบ |
 |---|---|---|---|
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
+| frontend -> productcatalogservice | kubernetes-manifests/frontend.yaml · PRODUCT_CATALOG_SERVICE_ADDR=productcatalogservice:3550 | ✅ | |
+| frontend -> currencyservice | kubernetes-manifests/frontend.yaml · CURRENCY_SERVICE_ADDR=currencyservice:7000 | ✅ | |
+| frontend -> cartservice | 	kubernetes-manifests/frontend.yaml · CART_SERVICE_ADDR=cartservice:707 | ✅ | |
+| frontend -> recommendationservice | kubernetes-manifests/frontend.yaml · RECOMMENDATION_SERVICE_ADDR=recommendationservice:8080 | ✅ | |
+| frontend -> shippingservice | kubernetes-manifests/frontend.yaml · SHIPPING_SERVICE_ADDR=shippingservice:50051 | ✅ | |
 
 - **สิ่งที่ผิดหรือขาดหายไป** ใน Run B (dependency ที่ไม่มีจริง, dependency ที่ขาดไป, container ที่น่าสงสัย): …
 
 ## สะท้อนคิด (ข้อละ 2–3 ประโยค)
 
 1. เปรียบเทียบ A กับ B: agent **ไม่สามารถ**รู้อะไรได้จากไฟล์ `.proto` เพียงไฟล์เดียว และเพราะเหตุใด
+Agent ไม่สามารถรู้ถึง dependency ระหว่าง components ได้เลย ทำให้ไม่สามารถเขียน Dependency Table ได้
 2. ข้อผิดพลาด**ข้อใดข้อหนึ่ง**ที่จะทำให้สมาชิกใหม่ของทีมเข้าใจผิดมากที่สุด หากเผยแพร่แผนภาพนี้โดยไม่ตรวจสอบ
+ถ้าไม่ตรวจสอบ Dependency call ก่อน จะไม่สามารถรู้ได้ว่า component ไหน call อะไร
